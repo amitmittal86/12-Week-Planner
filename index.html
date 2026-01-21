@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>12 Week Year Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+      font-family: 'Outfit', sans-serif;
+      color: #ffffff;
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+    }
+
+    .secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .delete-btn {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 12px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .delete-btn:hover {
+      background: rgba(231, 76, 60, 0.2);
+    }
+
+    .google-btn {
+      background: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .google-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .input-field {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: white;
+      font-size: 15px;
+      width: 100%;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #e63946;
+      background: rgba(230, 57, 70, 0.05);
+    }
+
+    .input-field::placeholder { color: #555; }
+
+    textarea.input-field {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .tab-btn {
+      padding: 12px 20px;
+      border: none;
+      background: transparent;
+      color: #666;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #999;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      color: white;
+      font-weight: 600;
+    }
+
+    .week-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: #888;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .week-btn:hover {
+      background: rgba(230, 57, 70, 0.2);
+      border-color: #e63946;
+    }
+
+    .week-btn.active {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border-color: transparent;
+      color: white;
+      font-weight: 700;
+    }
+
+    .day-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: #666;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .day-btn:hover {
+      background: rgba(230, 57, 70, 0.2);
+    }
+
+    .day-btn.completed {
+      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+      border-color: transparent;
+      color: white;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 8px 32px rgba(230, 57, 70, 0.3);
+    }
+
+    .logo-text h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text h1 span { color: #e63946; }
+
+    .logo-text p {
+      font-size: 11px;
+      color: #666;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .week-selector {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .week-selector label {
+      color: #666;
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .week-selector button {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 4px;
+      transition: color 0.2s;
+    }
+
+    .week-selector button:hover { color: #fff; }
+
+    .week-selector .week-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e63946;
+      font-family: 'Space Mono', monospace;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .nav {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-x: auto;
+    }
+
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .main {
+      padding: 24px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Login Screen */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      max-width: 440px;
+      width: 100%;
+      padding: 48px 36px;
+      text-align: center;
+    }
+
+    .login-card .logo-icon {
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+      margin: 0 auto 28px;
+    }
+
+    .login-card h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .login-card h1 span { color: #e63946; }
+
+    .login-card > p {
+      color: #888;
+      margin-bottom: 36px;
+      font-size: 16px;
+    }
+
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 28px 0;
+      color: #555;
+      font-size: 13px;
+    }
+
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .privacy-note {
+      padding: 16px;
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      border-radius: 10px;
+      text-align: left;
+      margin-top: 28px;
+    }
+
+    .privacy-note h4 {
+      color: #2ecc71;
+      font-size: 13px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .privacy-note p {
+      color: #888;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .instructions {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .instructions h4 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .instructions ol {
+      padding-left: 20px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+    }
+
+    /* User Menu */
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info .name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .user-info .email {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 14px;
+      border-radius: 8px;
+      color: #888;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(231, 76, 60, 0.1);
+      border-color: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .modal > p {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .link-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .link-box input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 14px;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Plans List */
+    .plans-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .plan-item {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .plan-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .plan-item.active {
+      border-color: #e63946;
+      background: rgba(230, 57, 70, 0.1);
+    }
+
+    .plan-item-info h4 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .plan-item-info p {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .plan-item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Goal Card */
+    .goal-card {
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .goal-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .goal-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .goal-input-wrap {
+      flex: 1;
+    }
+
+    .goal-input-wrap label {
+      display: block;
+      color: #888;
+      font-size: 10px;
+      margin-bottom: 6px;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+    }
+
+    .tactics-section {
+      margin-left: 60px;
+    }
+
+    .tactics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .tactics-header h4 {
+      font-size: 12px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+    }
+
+    .tactic-card {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+    }
+
+    .tactic-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .tactic-num {
+      color: #e63946;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      min-width: 24px;
+      padding-top: 12px;
+    }
+
+    .tactic-input {
+      flex: 1;
+    }
+
+    .weeks-selector {
+      margin-left: 36px;
+    }
+
+    .weeks-selector label {
+      display: block;
+      color: #666;
+      font-size: 10px;
+      margin-bottom: 8px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .weeks-grid {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .weeks-due {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .empty-state {
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(230, 57, 70, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .goals-summary {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .goals-summary h4 {
+      font-size: 11px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .goal-item {
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .goal-item-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .tactic-weekly {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+    }
+
+    .tactic-weekly-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tactic-weekly-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .tactic-goal-tag {
+      font-size: 10px;
+      color: #e63946;
+      font-family: 'Space Mono', monospace;
+      background: rgba(230, 57, 70, 0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .tactic-weekly-info p {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .days-selector {
+      text-align: right;
+    }
+
+    .days-selector label {
+      display: block;
+      color: #666;
+      font-size: 9px;
+      margin-bottom: 6px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .days-grid {
+      display: flex;
+      gap: 4px;
+    }
+
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .score-card {
+      padding: 32px;
+      text-align: center;
+    }
+
+    .score-card h4 {
+      font-size: 11px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .score-ring {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #e63946 calc(var(--score) * 1%),
+        rgba(255, 255, 255, 0.05) calc(var(--score) * 1%)
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .score-inner {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-inner .num {
+      font-size: 40px;
+      font-weight: 800;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .score-inner .percent {
+      font-size: 20px;
+      color: #888;
+    }
+
+    .score-stats {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .score-stat span {
+      display: block;
+      font-size: 10px;
+      color: #666;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 4px;
+    }
+
+    .score-stat .val {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .score-stat .val.green { color: #2ecc71; }
+
+    .score-divider {
+      width: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .score-formula {
+      margin-top: 20px;
+      color: #888;
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .progress-card {
+      padding: 32px;
+    }
+
+    .progress-card h4 {
+      font-size: 11px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .progress-item {
+      margin-bottom: 20px;
+    }
+
+    .progress-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .progress-item-header span {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .progress-item-header .count {
+      font-size: 12px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .status-card {
+      margin-top: 28px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .status-card.green {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+    }
+
+    .status-card.yellow {
+      background: rgba(241, 196, 15, 0.1);
+      border: 1px solid rgba(241, 196, 15, 0.2);
+    }
+
+    .status-card.red {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+
+    .status-card label {
+      display: block;
+      font-size: 10px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 6px;
+    }
+
+    .status-card .status {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .status-card.green .status { color: #2ecc71; }
+    .status-card.yellow .status { color: #f1c40f; }
+    .status-card.red .status { color: #e74c3c; }
+
+    .status-card p {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .week-overview {
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .week-overview h4 {
+      font-size: 11px;
+      color: #888;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .week-overview-grid {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .week-overview-item {
+      flex: 1;
+      padding: 14px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .week-overview-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .week-overview-item.active {
+      background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+      border-color: transparent;
+    }
+
+    .week-overview-item span {
+      display: block;
+      font-size: 9px;
+      color: #666;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 2px;
+    }
+
+    .week-overview-item.active span {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .week-overview-item .num {
+      font-size: 16px;
+      font-weight: 700;
+      color: #888;
+    }
+
+    .week-overview-item.active .num {
+      color: #fff;
+    }
+
+    .footer {
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+      color: #444;
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-creator {
+      color: #666;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+    }
+
+    .footer-creator span {
+      color: #e63946;
+      font-weight: 500;
+    }
+
+    .feedback-btn {
+      background: rgba(230, 57, 70, 0.1);
+      border: 1px solid rgba(230, 57, 70, 0.2);
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: #e63946;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feedback-btn:hover {
+      background: rgba(230, 57, 70, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .share-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 16px;
+      border-radius: 10px;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .share-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .sync-status {
+      font-size: 11px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2ecc71;
+    }
+
+    .sync-dot.saving {
+      background: #f1c40f;
+      animation: pulse 1s infinite;
+    }
+
+    .sync-dot.offline {
+      background: #e74c3c;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #e63946;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .shared-badge {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .user-menu {
+        order: -1;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .scorecard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tactics-section {
+        margin-left: 0;
+        margin-top: 16px;
+      }
+
+      .goal-header {
+        flex-wrap: wrap;
+      }
+
+      .week-overview-grid {
+        flex-wrap: wrap;
+      }
+
+      .week-overview-item {
+        flex: 0 0 calc(25% - 6px);
+      }
+
+      .tactic-row {
+        flex-direction: column;
+      }
+
+      .tactic-num {
+        padding-top: 0;
+      }
+
+      .weeks-selector {
+        margin-left: 0;
+      }
+
+      .tactic-weekly-header {
+        flex-direction: column;
+      }
+
+      .days-selector {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p style="color: #666;">Loading...</p>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ==================== FIREBASE CONFIG ====================
+    const firebaseConfig = {
+      apiKey: "AIzaSyA8AXIV-VdWixk-quW8idzqrptvs3Q12AI",
+      authDomain: "week-year-plan.firebaseapp.com",
+      projectId: "week-year-plan",
+      storageBucket: "week-year-plan.firebasestorage.app",
+      messagingSenderId: "748331115042",
+      appId: "1:748331115042:web:1b58b83a720662a4e6a07b"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ==================== APP STATE ====================
+    let state = {
+      loading: true,
+      user: null,
+      syncing: false,
+      activeTab: 'vision',
+      currentWeek: 1,
+      currentPlanId: null,
+      isSharedPlan: false,
+      plans: [],
+      plan: {
+        name: 'My 12 Week Plan',
+        vision: {
+          longTerm: '',
+          longTermAge: '',
+          threeYear: '',
+          threeYearAge: ''
+        },
+        goals: [],
+        completedTactics: {}
+      }
+    };
+
+    // ==================== UTILITIES ====================
+    function generateId() {
+      return Math.random().toString(36).substring(2, 10);
+    }
+
+    function getSharedPlanIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('shared');
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // ==================== AUTH ====================
+    async function signInWithGoogle() {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithPopup(provider);
+      } catch (error) {
+        console.error('Sign in error:', error);
+        alert('Failed to sign in. Please try again.');
+      }
+    }
+
+    async function signOut() {
+      try {
+        await auth.signOut();
+        state.user = null;
+        state.plans = [];
+        state.currentPlanId = null;
+        window.history.pushState({}, '', window.location.pathname);
+        render();
+      } catch (error) {
+        console.error('Sign out error:', error);
+      }
+    }
+
+    // ==================== FIRESTORE ====================
+    async function loadUserPlans() {
+      if (!state.user) return;
+      
+      try {
+        const snapshot = await db.collection('users').doc(state.user.uid).collection('plans').get();
+        state.plans = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
+        // Load first plan or create one
+        if (state.plans.length > 0 && !state.currentPlanId) {
+          await loadPlan(state.plans[0].id);
+        } else if (state.plans.length === 0) {
+          await createNewPlan();
+        }
+      } catch (error) {
+        console.error('Load plans error:', error);
+      }
+    }
+
+    async function loadPlan(planId) {
+      if (!state.user) return;
+      
+      try {
+        const doc = await db.collection('users').doc(state.user.uid).collection('plans').doc(planId).get();
+        if (doc.exists) {
+          state.currentPlanId = planId;
+          state.plan = doc.data();
+          state.isSharedPlan = false;
+          render();
+        }
+      } catch (error) {
+        console.error('Load plan error:', error);
+      }
+    }
+
+    async function loadSharedPlan(sharedId) {
+      try {
+        const doc = await db.collection('sharedPlans').doc(sharedId).get();
+        if (doc.exists) {
+          state.currentPlanId = sharedId;
+          state.plan = doc.data();
+          state.isSharedPlan = true;
+          render();
+        } else {
+          alert('Shared plan not found.');
+          window.history.pushState({}, '', window.location.pathname);
+        }
+      } catch (error) {
+        console.error('Load shared plan error:', error);
+        alert('Error loading shared plan.');
+      }
+    }
+
+    async function createNewPlan(name = 'My 12 Week Plan') {
+      if (!state.user) return;
+      
+      const newPlan = {
+        name: name,
+        vision: {
+          longTerm: '',
+          longTermAge: '',
+          threeYear: '',
+          threeYearAge: ''
+        },
+        goals: [],
+        completedTactics: {},
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      try {
+        const docRef = await db.collection('users').doc(state.user.uid).collection('plans').add(newPlan);
+        state.currentPlanId = docRef.id;
+        state.plan = newPlan;
+        state.plans.push({ id: docRef.id, ...newPlan });
+        state.isSharedPlan = false;
+        render();
+      } catch (error) {
+        console.error('Create plan error:', error);
+      }
+    }
+
+    async function savePlan() {
+      if (!state.user || !state.currentPlanId) return;
+      
+      state.syncing = true;
+      // Update only the sync indicator, not the whole page
+      const syncDot = document.querySelector('.sync-dot');
+      if (syncDot) syncDot.classList.add('saving');
+
+      try {
+        const dataToSave = {
+          ...state.plan,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if (state.isSharedPlan) {
+          await db.collection('sharedPlans').doc(state.currentPlanId).set(dataToSave);
+        } else {
+          await db.collection('users').doc(state.user.uid).collection('plans').doc(state.currentPlanId).set(dataToSave);
+        }
+      } catch (error) {
+        console.error('Save error:', error);
+      }
+
+      state.syncing = false;
+      if (syncDot) syncDot.classList.remove('saving');
+    }
+
+    const debouncedSave = debounce(savePlan, 1500);
+
+    async function deletePlan(planId) {
+      if (!state.user || !confirm('Are you sure you want to delete this plan?')) return;
+      
+      try {
+        await db.collection('users').doc(state.user.uid).collection('plans').doc(planId).delete();
+        state.plans = state.plans.filter(p => p.id !== planId);
+        
+        if (state.currentPlanId === planId) {
+          if (state.plans.length > 0) {
+            await loadPlan(state.plans[0].id);
+          } else {
+            await createNewPlan();
+          }
+        }
+        render();
+      } catch (error) {
+        console.error('Delete plan error:', error);
+      }
+    }
+
+    async function sharePlan() {
+      if (!state.user || !state.currentPlanId) return;
+      
+      try {
+        // Create a shared copy
+        const sharedId = generateId();
+        await db.collection('sharedPlans').doc(sharedId).set({
+          ...state.plan,
+          sharedBy: state.user.uid,
+          sharedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        return sharedId;
+      } catch (error) {
+        console.error('Share error:', error);
+        return null;
+      }
+    }
+
+    // ==================== ACTIONS ====================
+    function setActiveTab(tab) {
+      state.activeTab = tab;
+      render();
+    }
+
+    function setCurrentWeek(week) {
+      state.currentWeek = Math.max(1, Math.min(12, week));
+      render();
+    }
+
+    function updateVision(field, value) {
+      state.plan.vision[field] = value;
+      debouncedSave();
+      // Don't re-render here - causes cursor issues
+    }
+
+    function updatePlanName(name) {
+      state.plan.name = name;
+      debouncedSave();
+      // Don't re-render here - causes cursor issues
+    }
+
+    function addGoal() {
+      state.plan.goals.push({
+        id: generateId(),
+        title: '',
+        tactics: [],
+        lagIndicator: {
+          name: '',
+          unit: '',
+          startValue: '',
+          targetValue: '',
+          entries: []
+        }
+      });
+      render();
+      debouncedSave();
+    }
+
+    function updateGoalTitle(goalId, title) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        goal.title = title;
+        debouncedSave();
+        // Don't re-render here - causes cursor issues
+      }
+    }
+
+    function updateLagIndicator(goalId, field, value) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        if (!goal.lagIndicator) {
+          goal.lagIndicator = { name: '', unit: '', startValue: '', targetValue: '', entries: [] };
+        }
+        goal.lagIndicator[field] = value;
+        debouncedSave();
+        // Don't re-render here - it causes cursor to lose focus
+      }
+    }
+
+    function addLagEntry(goalId) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal && goal.lagIndicator) {
+        const value = document.getElementById(`lag-input-${goalId}`).value;
+        if (value === '') return;
+        
+        if (!goal.lagIndicator.entries) {
+          goal.lagIndicator.entries = [];
+        }
+        
+        goal.lagIndicator.entries.push({
+          id: generateId(),
+          date: new Date().toISOString(),
+          week: state.currentWeek,
+          value: parseFloat(value)
+        });
+        
+        document.getElementById(`lag-input-${goalId}`).value = '';
+        debouncedSave();
+        render();
+      }
+    }
+
+    function deleteLagEntry(goalId, entryId) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal && goal.lagIndicator && goal.lagIndicator.entries) {
+        goal.lagIndicator.entries = goal.lagIndicator.entries.filter(e => e.id !== entryId);
+        debouncedSave();
+        render();
+      }
+    }
+
+    function deleteGoal(goalId) {
+      state.plan.goals = state.plan.goals.filter(g => g.id !== goalId);
+      render();
+      debouncedSave();
+    }
+
+    function addTactic(goalId) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        goal.tactics.push({
+          id: generateId(),
+          description: '',
+          weeksDue: [],
+          daysRequired: 1
+        });
+        render();
+        debouncedSave();
+      }
+    }
+
+    function updateTacticDescription(goalId, tacticId, description) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        const tactic = goal.tactics.find(t => t.id === tacticId);
+        if (tactic) {
+          tactic.description = description;
+          debouncedSave();
+          // Don't re-render here - causes cursor issues
+        }
+      }
+    }
+
+    function updateTacticDaysRequired(goalId, tacticId, daysRequired) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        const tactic = goal.tactics.find(t => t.id === tacticId);
+        if (tactic) {
+          tactic.daysRequired = parseInt(daysRequired) || 1;
+          debouncedSave();
+          // Don't re-render here - causes cursor issues
+        }
+      }
+    }
+
+    function toggleWeekForTactic(goalId, tacticId, week) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        const tactic = goal.tactics.find(t => t.id === tacticId);
+        if (tactic) {
+          if (tactic.weeksDue.includes(week)) {
+            tactic.weeksDue = tactic.weeksDue.filter(w => w !== week);
+          } else {
+            tactic.weeksDue = [...tactic.weeksDue, week].sort((a, b) => a - b);
+          }
+          render();
+          debouncedSave();
+        }
+      }
+    }
+
+    function deleteTactic(goalId, tacticId) {
+      const goal = state.plan.goals.find(g => g.id === goalId);
+      if (goal) {
+        goal.tactics = goal.tactics.filter(t => t.id !== tacticId);
+        render();
+        debouncedSave();
+      }
+    }
+
+    function toggleDayCompletion(tacticId, day) {
+      const key = `${state.currentWeek}-${tacticId}`;
+      if (!state.plan.completedTactics) {
+        state.plan.completedTactics = {};
+      }
+      const current = state.plan.completedTactics[key] || [];
+      
+      if (current.includes(day)) {
+        state.plan.completedTactics[key] = current.filter(d => d !== day);
+      } else {
+        state.plan.completedTactics[key] = [...current, day];
+      }
+      
+      render();
+      debouncedSave();
+    }
+
+    function isDayCompleted(tacticId, day) {
+      if (!state.plan.completedTactics) return false;
+      const key = `${state.currentWeek}-${tacticId}`;
+      return (state.plan.completedTactics[key] || []).includes(day);
+    }
+
+    function getTacticsDueThisWeek() {
+      const tactics = [];
+      (state.plan.goals || []).forEach(goal => {
+        (goal.tactics || []).forEach(tactic => {
+          if (tactic.weeksDue && tactic.weeksDue.includes(state.currentWeek)) {
+            tactics.push({
+              ...tactic,
+              goalId: goal.id,
+              goalTitle: goal.title
+            });
+          }
+        });
+      });
+      return tactics;
+    }
+
+    function calculateWeeklyScore() {
+      const tacticsDue = getTacticsDueThisWeek();
+      if (tacticsDue.length === 0) return { completed: 0, total: 0, score: 0 };
+      
+      let totalRequired = 0;
+      let totalCompleted = 0;
+      
+      tacticsDue.forEach(tactic => {
+        const key = `${state.currentWeek}-${tactic.id}`;
+        const completedDays = ((state.plan.completedTactics && state.plan.completedTactics[key]) || []).length;
+        const daysRequired = tactic.daysRequired || 1;
+        
+        totalRequired += daysRequired;
+        totalCompleted += Math.min(completedDays, daysRequired); // Cap at required days
+      });
+      
+      return {
+        completed: totalCompleted,
+        total: totalRequired,
+        score: totalRequired > 0 ? Math.round((totalCompleted / totalRequired) * 100) : 0
+      };
+    }
+
+    // ==================== MODALS ====================
+    let showShareModal = false;
+    let shareLink = '';
+
+    async function openShareModal() {
+      const sharedId = await sharePlan();
+      if (sharedId) {
+        shareLink = `${window.location.origin}${window.location.pathname}?shared=${sharedId}`;
+        showShareModal = true;
+        render();
+      }
+    }
+
+    function closeShareModal() {
+      showShareModal = false;
+      render();
+    }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(shareLink).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        if (btn) {
+          btn.textContent = 'Copied!';
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+          }, 2000);
+        }
+      });
+    }
+
+    // ==================== RENDER ====================
+    function render() {
+      const app = document.getElementById('app');
+      
+      if (state.loading) {
+        app.innerHTML = `
+          <div class="loading">
+            <div class="spinner"></div>
+            <p style="color: #666;">Loading...</p>
+          </div>
+        `;
+        return;
+      }
+      
+      if (!state.user) {
+        app.innerHTML = renderLoginScreen();
+      } else {
+        app.innerHTML = renderMainApp();
+      }
+    }
+
+    function renderLoginScreen() {
+      return `
+        <div class="login-screen">
+          <div class="glass-card login-card">
+            <div class="logo-icon">12</div>
+            <h1>Week <span>Year</span></h1>
+            <p>Plan your next 12 weeks with focus and intention.</p>
+            
+            <button class="google-btn" onclick="signInWithGoogle()">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+              Sign in with Google
+            </button>
+
+            <div class="privacy-note">
+              <h4>🔒 Your Privacy</h4>
+              <p>
+                <strong>Your data is completely private</strong> until you choose to share it. 
+                Only you can see your plans. When you share a plan, only people with the link can access it.
+              </p>
+            </div>
+
+            <div class="instructions">
+              <h4>📖 How to Use</h4>
+              <ol>
+                <li><strong>Set Your Vision</strong> — Define your long-term and 3-year vision</li>
+                <li><strong>Create Goals</strong> — Add 1-3 focused goals for the next 12 weeks</li>
+                <li><strong>Add Tactics</strong> — Break each goal into specific actions</li>
+                <li><strong>Assign Weeks</strong> — Choose which weeks each tactic is due</li>
+                <li><strong>Track Weekly</strong> — Check off completed tactics each day</li>
+                <li><strong>Review Score</strong> — Monitor your execution (aim for 85%+)</li>
+              </ol>
+            </div>
+
+            <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center;">
+              <p class="footer-creator" style="margin-bottom: 12px;">Created by <span>Amit Mittal</span></p>
+              <button class="feedback-btn" onclick="sendFeedback()">
+                💬 Send Feedback
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMainApp() {
+      const score = calculateWeeklyScore();
+      
+      return `
+        <header class="header">
+          <div class="header-content">
+            <div class="logo">
+              <div class="logo-icon">12</div>
+              <div class="logo-text">
+                <h1>Week <span>Year</span></h1>
+                <p>EXECUTION SYSTEM</p>
+              </div>
+            </div>
+            
+            <div class="header-right" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+              <div class="sync-status">
+                <div class="sync-dot ${state.syncing ? 'saving' : ''}"></div>
+                ${state.syncing ? 'Saving...' : 'Synced'}
+              </div>
+
+              ${state.isSharedPlan ? '<span class="shared-badge">SHARED PLAN</span>' : ''}
+              
+              <button class="share-btn" onclick="openShareModal()">
+                📤 Share
+              </button>
+              
+              <div class="week-selector">
+                <label>WEEK</label>
+                <button onclick="setCurrentWeek(${state.currentWeek - 1})">‹</button>
+                <span class="week-num">${state.currentWeek}</span>
+                <button onclick="setCurrentWeek(${state.currentWeek + 1})">›</button>
+              </div>
+
+              <div class="user-menu">
+                <img src="${state.user.photoURL || ''}" alt="" class="user-avatar" onerror="this.style.display='none'">
+                <div class="user-info">
+                  <div class="name">${state.user.displayName || 'User'}</div>
+                  <div class="email">${state.user.email || ''}</div>
+                </div>
+                <button class="logout-btn" onclick="signOut()">Logout</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <nav class="nav">
+          <div class="nav-content">
+            <button class="tab-btn ${state.activeTab === 'plans' ? 'active' : ''}" onclick="setActiveTab('plans')">MY PLANS</button>
+            <button class="tab-btn ${state.activeTab === 'vision' ? 'active' : ''}" onclick="setActiveTab('vision')">VISION</button>
+            <button class="tab-btn ${state.activeTab === 'goals' ? 'active' : ''}" onclick="setActiveTab('goals')">GOALS & TACTICS</button>
+            <button class="tab-btn ${state.activeTab === 'weekly' ? 'active' : ''}" onclick="setActiveTab('weekly')">WEEKLY PLAN</button>
+            <button class="tab-btn ${state.activeTab === 'scorecard' ? 'active' : ''}" onclick="setActiveTab('scorecard')">SCORECARD</button>
+          </div>
+        </nav>
+
+        <main class="main">
+          ${state.activeTab === 'plans' ? renderPlansTab() : ''}
+          ${state.activeTab === 'vision' ? renderVisionTab() : ''}
+          ${state.activeTab === 'goals' ? renderGoalsTab() : ''}
+          ${state.activeTab === 'weekly' ? renderWeeklyTab() : ''}
+          ${state.activeTab === 'scorecard' ? renderScorecardTab(score) : ''}
+        </main>
+
+        <footer class="footer">
+          <div class="footer-content">
+            <div>12 WEEK YEAR EXECUTION SYSTEM • Be great at a few things versus mediocre at many</div>
+            <div class="footer-creator">Created by <span>Amit Mittal</span></div>
+            <button class="feedback-btn" onclick="sendFeedback()">
+              💬 Send Feedback
+            </button>
+          </div>
+        </footer>
+
+        ${renderShareModal()}
+      `;
+    }
+
+    function renderPlansTab() {
+      return `
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h2>My Plans</h2>
+            <p>Manage your 12 Week Year plans</p>
+          </div>
+          <button class="primary-btn" onclick="createNewPlan('New Plan')">+ New Plan</button>
+        </div>
+
+        <div class="plans-list">
+          ${state.plans.map(plan => `
+            <div class="plan-item ${plan.id === state.currentPlanId ? 'active' : ''}" onclick="loadPlan('${plan.id}')">
+              <div class="plan-item-info">
+                <h4>${plan.name || 'Untitled Plan'}</h4>
+                <p>${(plan.goals || []).length} goals • Created ${plan.createdAt ? new Date(plan.createdAt.toDate()).toLocaleDateString() : 'recently'}</p>
+              </div>
+              <div class="plan-item-actions">
+                ${plan.id === state.currentPlanId ? '<span class="shared-badge">ACTIVE</span>' : ''}
+                <button class="delete-btn" onclick="event.stopPropagation(); deletePlan('${plan.id}')">Delete</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        ${state.currentPlanId ? `
+          <div class="glass-card" style="padding: 24px; margin-top: 24px;">
+            <label style="display: block; color: #888; font-size: 11px; margin-bottom: 8px; font-family: 'Space Mono', monospace;">PLAN NAME</label>
+            <input type="text" class="input-field" value="${state.plan.name || ''}" onchange="updatePlanName(this.value)" placeholder="Enter plan name">
+          </div>
+        ` : ''}
+      `;
+    }
+
+    function renderVisionTab() {
+      return `
+        <div class="glass-card" style="padding: 32px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(230, 57, 70, 0.2), rgba(255, 107, 107, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 22px;">🎯</div>
+            <div>
+              <h2 style="font-size: 20px; font-weight: 700;">Long-Term Aspirational Vision</h2>
+              <p style="color: #666; font-size: 13px;">What is your vision for 5, 10, 15 years into the future?</p>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; color: #888; font-size: 11px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">TARGET AGE</label>
+            <input type="text" class="input-field" placeholder="e.g., 45" value="${state.plan.vision?.longTermAge || ''}" onchange="updateVision('longTermAge', this.value)" style="max-width: 120px;">
+          </div>
+          
+          <textarea class="input-field" placeholder="Describe your ideal life 5-15 years from now..." onchange="updateVision('longTerm', this.value)">${state.plan.vision?.longTerm || ''}</textarea>
+        </div>
+
+        <div class="glass-card" style="padding: 32px;">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)); display: flex; align-items: center; justify-content: center; font-size: 22px;">📅</div>
+            <div>
+              <h2 style="font-size: 20px; font-weight: 700;">3 Year Vision</h2>
+              <p style="color: #666; font-size: 13px;">3 years from now, what do you want to create?</p>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; color: #888; font-size: 11px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">TARGET AGE</label>
+            <input type="text" class="input-field" placeholder="e.g., 33" value="${state.plan.vision?.threeYearAge || ''}" onchange="updateVision('threeYearAge', this.value)" style="max-width: 120px;">
+          </div>
+          
+          <textarea class="input-field" placeholder="What will your life look like in 3 years?..." onchange="updateVision('threeYear', this.value)">${state.plan.vision?.threeYear || ''}</textarea>
+        </div>
+      `;
+    }
+
+    function renderGoalsTab() {
+      const goals = state.plan.goals || [];
+      
+      return `
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h2>12 Week Goals & Tactics</h2>
+            <p>Define your goals and the specific actions needed</p>
+          </div>
+          <button class="primary-btn" onclick="addGoal()">+ Add Goal</button>
+        </div>
+
+        ${goals.length === 0 ? `
+          <div class="glass-card empty-state">
+            <div class="empty-icon">🎯</div>
+            <h3>No Goals Yet</h3>
+            <p>Start by adding your first 12-week goal. Keep it focused—1-3 goals maximum.</p>
+            <button class="primary-btn" onclick="addGoal()">Create Your First Goal</button>
+          </div>
+        ` : goals.map((goal, index) => `
+          <div class="glass-card goal-card">
+            <div class="goal-header">
+              <div class="goal-number">${index + 1}</div>
+              <div class="goal-input-wrap">
+                <label>GOAL ${index + 1}</label>
+                <input type="text" class="input-field" placeholder="Enter your goal..." value="${goal.title || ''}" onchange="updateGoalTitle('${goal.id}', this.value)" style="font-size: 17px; font-weight: 500;">
+              </div>
+              <button class="delete-btn" onclick="deleteGoal('${goal.id}')">Delete</button>
+            </div>
+
+            <!-- Lag Indicator Section -->
+            <div style="margin: 24px 0; padding: 20px; background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.15); border-radius: 12px;">
+              <h4 style="font-size: 12px; color: #2ecc71; font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                📊 LAG INDICATOR (Measurable Outcome)
+              </h4>
+              
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                <div>
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">METRIC NAME</label>
+                  <input type="text" class="input-field" placeholder="e.g., Weight, Revenue" value="${goal.lagIndicator?.name || ''}" onchange="updateLagIndicator('${goal.id}', 'name', this.value)" style="padding: 10px 14px;">
+                </div>
+                <div>
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">UNIT</label>
+                  <input type="text" class="input-field" placeholder="e.g., kg, $, %" value="${goal.lagIndicator?.unit || ''}" onchange="updateLagIndicator('${goal.id}', 'unit', this.value)" style="padding: 10px 14px;">
+                </div>
+                <div>
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">START VALUE</label>
+                  <input type="number" class="input-field" placeholder="e.g., 90" value="${goal.lagIndicator?.startValue || ''}" onchange="updateLagIndicator('${goal.id}', 'startValue', this.value)" style="padding: 10px 14px;">
+                </div>
+                <div>
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">TARGET VALUE</label>
+                  <input type="number" class="input-field" placeholder="e.g., 80" value="${goal.lagIndicator?.targetValue || ''}" onchange="updateLagIndicator('${goal.id}', 'targetValue', this.value)" style="padding: 10px 14px;">
+                </div>
+              </div>
+
+              <!-- Progress Entry -->
+              <div style="display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 6px; font-family: 'Space Mono', monospace;">RECORD CURRENT VALUE (Week ${state.currentWeek})</label>
+                  <input type="number" id="lag-input-${goal.id}" class="input-field" placeholder="Enter current value" style="padding: 10px 14px;">
+                </div>
+                <button class="primary-btn" onclick="addLagEntry('${goal.id}')" style="padding: 10px 20px;">+ Add Entry</button>
+              </div>
+
+              <!-- Progress Graph -->
+              ${renderLagGraph(goal)}
+              
+              <!-- Entries List -->
+              ${goal.lagIndicator?.entries?.length > 0 ? `
+                <div style="margin-top: 16px;">
+                  <label style="display: block; color: #888; font-size: 10px; margin-bottom: 8px; font-family: 'Space Mono', monospace;">PROGRESS ENTRIES</label>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    ${goal.lagIndicator.entries.map(entry => `
+                      <div style="background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                        <span style="color: #888;">Wk ${entry.week}:</span>
+                        <span style="color: #fff; font-weight: 500;">${entry.value} ${goal.lagIndicator.unit || ''}</span>
+                        <button onclick="deleteLagEntry('${goal.id}', '${entry.id}')" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 14px;">×</button>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="tactics-section">
+              <div class="tactics-header">
+                <h4>LEAD INDICATORS (Tactics)</h4>
+                <button class="secondary-btn" onclick="addTactic('${goal.id}')">+ Add Tactic</button>
+              </div>
+
+              ${(goal.tactics || []).length === 0 ? `
+                <div style="padding: 20px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.08); text-align: center;">
+                  <p style="color: #555; font-size: 13px;">Add tactics—the specific actions needed</p>
+                </div>
+              ` : (goal.tactics || []).map((tactic, tIndex) => `
+                <div class="tactic-card">
+                  <div class="tactic-row">
+                    <span class="tactic-num">${tIndex + 1}.</span>
+                    <div class="tactic-input">
+                      <input type="text" class="input-field" placeholder="Describe this tactic..." value="${tactic.description || ''}" onchange="updateTacticDescription('${goal.id}', '${tactic.id}', this.value)">
+                    </div>
+                    <button class="delete-btn" onclick="deleteTactic('${goal.id}', '${tactic.id}')" style="padding: 8px 12px;">✕</button>
+                  </div>
+                  
+                  <div class="weeks-selector">
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px;">
+                      <div>
+                        <label>DAYS REQUIRED PER WEEK</label>
+                        <select class="input-field" style="width: auto; padding: 10px 14px; margin-top: 6px;" onchange="updateTacticDaysRequired('${goal.id}', '${tactic.id}', this.value)">
+                          ${[1,2,3,4,5,6,7].map(n => `<option value="${n}" ${(tactic.daysRequired || 1) === n ? 'selected' : ''}>${n} day${n > 1 ? 's' : ''}/week</option>`).join('')}
+                        </select>
+                      </div>
+                    </div>
+                    <label>WEEKS DUE (click to toggle)</label>
+                    <div class="weeks-grid">
+                      ${[1,2,3,4,5,6,7,8,9,10,11,12].map(week => `
+                        <button class="week-btn ${(tactic.weeksDue || []).includes(week) ? 'active' : ''}" onclick="toggleWeekForTactic('${goal.id}', '${tactic.id}', ${week})">${week}</button>
+                      `).join('')}
+                    </div>
+                    ${(tactic.weeksDue || []).length > 0 ? `<p class="weeks-due">Due: Week${tactic.weeksDue.length > 1 ? 's' : ''} ${tactic.weeksDue.join(', ')}</p>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    function renderWeeklyTab() {
+      const tacticsDue = getTacticsDueThisWeek();
+      const days = ['M', 'T', 'W', 'TH', 'F', 'SA', 'SU'];
+      const goals = state.plan.goals || [];
+      
+      // Calculate total tactics for whole plan and completed
+      let totalTacticsAllWeeks = 0;
+      let completedTacticsAllWeeks = 0;
+      
+      goals.forEach(goal => {
+        (goal.tactics || []).forEach(tactic => {
+          const weeksCount = (tactic.weeksDue || []).length;
+          const daysRequired = tactic.daysRequired || 1;
+          totalTacticsAllWeeks += weeksCount * daysRequired;
+          
+          // Count completed across all weeks
+          (tactic.weeksDue || []).forEach(week => {
+            const key = `${week}-${tactic.id}`;
+            const completedDays = ((state.plan.completedTactics && state.plan.completedTactics[key]) || []).length;
+            completedTacticsAllWeeks += Math.min(completedDays, daysRequired);
+          });
+        });
+      });
+      
+      const overallProgress = totalTacticsAllWeeks > 0 ? Math.round((completedTacticsAllWeeks / totalTacticsAllWeeks) * 100) : 0;
+
+      return `
+        <div class="section-header">
+          <h2>Week ${state.currentWeek} Plan</h2>
+          <p>Tactics due this week</p>
+        </div>
+
+        <!-- Overall Plan Progress -->
+        <div class="glass-card" style="padding: 20px; margin-bottom: 20px;">
+          <h4 style="font-size: 11px; color: #888; font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 16px;">📊 12 WEEK PLAN PROGRESS</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
+            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 10px;">
+              <div style="font-size: 28px; font-weight: 700; color: #e63946;">${totalTacticsAllWeeks}</div>
+              <div style="font-size: 11px; color: #888; margin-top: 4px;">Total Days Required</div>
+            </div>
+            <div style="padding: 16px; background: rgba(46, 204, 113, 0.1); border-radius: 10px;">
+              <div style="font-size: 28px; font-weight: 700; color: #2ecc71;">${completedTacticsAllWeeks}</div>
+              <div style="font-size: 11px; color: #888; margin-top: 4px;">Days Completed</div>
+            </div>
+            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 10px;">
+              <div style="font-size: 28px; font-weight: 700; color: ${overallProgress >= 85 ? '#2ecc71' : overallProgress >= 70 ? '#f1c40f' : '#e63946'};">${overallProgress}%</div>
+              <div style="font-size: 11px; color: #888; margin-top: 4px;">Overall Progress</div>
+            </div>
+          </div>
+          <div class="progress-bar" style="margin-top: 16px;">
+            <div class="progress-fill" style="width: ${overallProgress}%;"></div>
+          </div>
+        </div>
+
+        <div class="glass-card goals-summary">
+          <h4>12 WEEK YEAR GOALS</h4>
+          ${goals.length === 0 ? `
+            <p style="color: #555;">No goals defined yet.</p>
+          ` : goals.map((goal, index) => `
+            <div class="goal-item">
+              <span class="goal-item-num">${index + 1}</span>
+              <span style="color: ${goal.title ? '#fff' : '#555'};">${goal.title || 'Untitled goal'}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="glass-card" style="padding: 24px;">
+          <h4 style="font-size: 11px; color: #888; font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 20px;">TACTICS DUE THIS WEEK (Week ${state.currentWeek})</h4>
+          
+          ${tacticsDue.length === 0 ? `
+            <div style="padding: 40px; text-align: center; background: rgba(255,255,255,0.02); border-radius: 12px;">
+              <p style="color: #555; font-size: 14px;">No tactics due for Week ${state.currentWeek}.</p>
+            </div>
+          ` : tacticsDue.map((tactic, index) => {
+            const key = `${state.currentWeek}-${tactic.id}`;
+            const completedDays = ((state.plan.completedTactics && state.plan.completedTactics[key]) || []).length;
+            const daysRequired = tactic.daysRequired || 1;
+            const tacticProgress = Math.min(Math.round((completedDays / daysRequired) * 100), 100);
+            
+            return `
+            <div class="tactic-weekly">
+              <div class="tactic-weekly-header">
+                <div class="tactic-weekly-info">
+                  <span class="tactic-goal-tag">${tactic.goalTitle || 'Goal'}</span>
+                  <p>${index + 1}. ${tactic.description || 'Untitled tactic'}</p>
+                  <p style="font-size: 12px; color: ${completedDays >= daysRequired ? '#2ecc71' : '#888'}; margin-top: 6px;">
+                    ${completedDays}/${daysRequired} days completed (${tacticProgress}%)
+                  </p>
+                </div>
+                <div class="days-selector">
+                  <label>CHECK DAYS (${daysRequired} required)</label>
+                  <div class="days-grid">
+                    ${days.map(day => `
+                      <button class="day-btn ${isDayCompleted(tactic.id, day) ? 'completed' : ''}" onclick="toggleDayCompletion('${tactic.id}', '${day}')">${day}</button>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `}).join('')}
+        </div>
+      `;
+    }
+
+    function renderScorecardTab(score) {
+      const statusClass = score.score >= 85 ? 'green' : score.score >= 70 ? 'yellow' : 'red';
+      const statusText = score.score >= 85 ? '✓ On Pace' : score.score >= 70 ? '⚠ At Risk' : '✕ Behind';
+      const statusMsg = score.score >= 85 
+        ? 'Great execution! Keep it up.'
+        : score.score >= 70 
+          ? 'Room for improvement.'
+          : 'Identify blockers and recommit.';
+      const goals = state.plan.goals || [];
+
+      // Calculate overall 12-week progress
+      let totalTacticsAllWeeks = 0;
+      let completedTacticsAllWeeks = 0;
+      
+      const goalProgress = goals.map((goal, index) => {
+        let goalTotal = 0;
+        let goalCompleted = 0;
+        
+        (goal.tactics || []).forEach(tactic => {
+          const weeksCount = (tactic.weeksDue || []).length;
+          const daysRequired = tactic.daysRequired || 1;
+          goalTotal += weeksCount * daysRequired;
+          
+          (tactic.weeksDue || []).forEach(week => {
+            const key = `${week}-${tactic.id}`;
+            const completedDays = ((state.plan.completedTactics && state.plan.completedTactics[key]) || []).length;
+            goalCompleted += Math.min(completedDays, daysRequired);
+          });
+        });
+        
+        totalTacticsAllWeeks += goalTotal;
+        completedTacticsAllWeeks += goalCompleted;
+        
+        return {
+          title: goal.title || `Goal ${index + 1}`,
+          completed: goalCompleted,
+          total: goalTotal,
+          percent: goalTotal > 0 ? Math.round((goalCompleted / goalTotal) * 100) : 0
+        };
+      });
+      
+      const overallProgress = totalTacticsAllWeeks > 0 ? Math.round((completedTacticsAllWeeks / totalTacticsAllWeeks) * 100) : 0;
+
+      return `
+        <div class="section-header">
+          <h2>Week ${state.currentWeek} Scorecard</h2>
+          <p>Score your execution</p>
+        </div>
+
+        <!-- Overall 12-Week Progress -->
+        <div class="glass-card" style="padding: 24px; margin-bottom: 20px;">
+          <h4 style="font-size: 11px; color: #888; font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 20px;">📊 OVERALL 12-WEEK PROGRESS</h4>
+          
+          <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+            <div class="score-ring" style="--score: ${overallProgress}; width: 100px; height: 100px; flex-shrink: 0;">
+              <div class="score-inner" style="width: 76px; height: 76px;">
+                <span class="num" style="font-size: 28px;">${overallProgress}</span>
+                <span class="percent" style="font-size: 14px;">%</span>
+              </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="color: #888; font-size: 13px;">Overall Progress</span>
+                <span style="color: #fff; font-weight: 600;">${completedTacticsAllWeeks}/${totalTacticsAllWeeks} days</span>
+              </div>
+              <div class="progress-bar" style="height: 12px;">
+                <div class="progress-fill" style="width: ${overallProgress}%;"></div>
+              </div>
+              <p style="color: ${overallProgress >= 85 ? '#2ecc71' : overallProgress >= 70 ? '#f1c40f' : '#e63946'}; font-size: 12px; margin-top: 8px;">
+                ${overallProgress >= 85 ? '✓ Excellent progress!' : overallProgress >= 70 ? '⚠ On track, keep pushing!' : '✕ Needs attention'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Per Goal Progress -->
+        <div class="glass-card" style="padding: 24px; margin-bottom: 20px;">
+          <h4 style="font-size: 11px; color: #888; font-family: 'Space Mono', monospace; letter-spacing: 1px; margin-bottom: 20px;">🎯 PROGRESS BY GOAL (All 12 Weeks)</h4>
+          
+          ${goalProgress.length === 0 ? `
+            <p style="color: #555;">No goals to track.</p>
+          ` : goalProgress.map((gp, index) => `
+            <div style="margin-bottom: 20px; padding: 16px; background: rgba(255,255,255,0.02); border-radius: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">${index + 1}</span>
+                  <span style="font-weight: 500;">${gp.title}</span>
+                </div>
+                <span style="font-size: 20px; font-weight: 700; color: ${gp.percent >= 85 ? '#2ecc71' : gp.percent >= 70 ? '#f1c40f' : '#e63946'};">${gp.percent}%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${gp.percent}%; background: ${gp.percent >= 85 ? 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)' : gp.percent >= 70 ? 'linear-gradient(135deg, #f1c40f 0%, #f39c12 100%)' : 'linear-gradient(135deg, #e63946 0%, #ff6b6b 100%)'};"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #666;">
+                <span>${gp.completed}/${gp.total} days completed</span>
+                <span>${gp.percent >= 85 ? 'On Pace' : gp.percent >= 70 ? 'At Risk' : 'Behind'}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="scorecard-grid">
+          <div class="glass-card score-card">
+            <h4>WEEK ${state.currentWeek} EXECUTION SCORE</h4>
+            <div class="score-ring" style="--score: ${score.score};">
+              <div class="score-inner">
+                <span class="num">${score.score}</span>
+                <span class="percent">%</span>
+              </div>
+            </div>
+            <div class="score-stats">
+              <div class="score-stat">
+                <span>COMPLETED</span>
+                <div class="val green">${score.completed}</div>
+              </div>
+              <div class="score-divider"></div>
+              <div class="score-stat">
+                <span>TOTAL DUE</span>
+                <div class="val">${score.total}</div>
+              </div>
+            </div>
+            <p class="score-formula">${score.completed} ÷ ${score.total} × 100 = ${score.score}%</p>
+          </div>
+
+          <div class="glass-card progress-card">
+            <h4>WEEK ${state.currentWeek} PROGRESS BY GOAL</h4>
+            ${goals.length === 0 ? `
+              <p style="color: #555;">No goals to track.</p>
+            ` : goals.map((goal, index) => {
+              const goalTactics = (goal.tactics || []).filter(t => (t.weeksDue || []).includes(state.currentWeek));
+              let goalRequired = 0;
+              let goalCompleted = 0;
+              
+              goalTactics.forEach(t => {
+                const key = `${state.currentWeek}-${t.id}`;
+                const completedDays = ((state.plan.completedTactics && state.plan.completedTactics[key]) || []).length;
+                const daysRequired = t.daysRequired || 1;
+                goalRequired += daysRequired;
+                goalCompleted += Math.min(completedDays, daysRequired);
+              });
+              
+              const progress = goalRequired > 0 ? Math.round((goalCompleted / goalRequired) * 100) : 0;
+
+              return `
+                <div class="progress-item">
+                  <div class="progress-item-header">
+                    <span>${goal.title || `Goal ${index + 1}`}</span>
+                    <span class="count">${goalCompleted}/${goalRequired} days</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%;"></div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+
+            <div class="status-card ${statusClass}">
+              <label>WEEK ${state.currentWeek} STATUS</label>
+              <div class="status">${statusText}</div>
+              <p>${statusMsg}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card week-overview">
+          <h4>12 WEEK OVERVIEW</h4>
+          <div class="week-overview-grid">
+            ${[1,2,3,4,5,6,7,8,9,10,11,12].map(week => `
+              <div class="week-overview-item ${week === state.currentWeek ? 'active' : ''}" onclick="setCurrentWeek(${week})">
+                <span>WK</span>
+                <div class="num">${week}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderShareModal() {
+      if (!showShareModal) return '';
+      
+      return `
+        <div class="modal-overlay active" onclick="if(event.target === this) closeShareModal()">
+          <div class="modal">
+            <h3>📤 Share Your Plan</h3>
+            <p>Share this link with friends or teammates.</p>
+            
+            <div class="link-box">
+              <input type="text" value="${shareLink}" readonly>
+              <button class="copy-btn" onclick="copyShareLink()">Copy</button>
+            </div>
+
+            <div class="privacy-note">
+              <h4>🔒 Privacy Note</h4>
+              <p>
+                <strong>Only people with this link can access this plan.</strong> 
+                Your original plan stays private. This creates a shared copy that anyone with the link can view and edit.
+              </p>
+            </div>
+
+            <div class="modal-actions">
+              <button class="secondary-btn" onclick="closeShareModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==================== INIT ====================
+    
+    // Render Lag Indicator Graph
+    function renderLagGraph(goal) {
+      const lag = goal.lagIndicator;
+      if (!lag || !lag.startValue || !lag.targetValue) {
+        return `<div style="padding: 20px; background: rgba(255,255,255,0.02); border-radius: 8px; text-align: center; color: #555; font-size: 13px;">
+          Set start and target values to see progress graph
+        </div>`;
+      }
+      
+      const startVal = parseFloat(lag.startValue);
+      const targetVal = parseFloat(lag.targetValue);
+      const entries = lag.entries || [];
+      const isDecreasing = targetVal < startVal;
+      
+      // Create data points including start
+      let dataPoints = [{ week: 0, value: startVal }];
+      entries.forEach(e => {
+        dataPoints.push({ week: e.week, value: e.value });
+      });
+      dataPoints.sort((a, b) => a.week - b.week);
+      
+      // Calculate graph dimensions
+      const graphWidth = 100;
+      const graphHeight = 120;
+      const padding = 10;
+      
+      // Calculate min/max for scaling
+      const allValues = [startVal, targetVal, ...entries.map(e => e.value)];
+      const minVal = Math.min(...allValues) - Math.abs(targetVal - startVal) * 0.1;
+      const maxVal = Math.max(...allValues) + Math.abs(targetVal - startVal) * 0.1;
+      const valueRange = maxVal - minVal;
+      
+      // Scale functions
+      const scaleX = (week) => padding + (week / 12) * (graphWidth - 2 * padding);
+      const scaleY = (val) => graphHeight - padding - ((val - minVal) / valueRange) * (graphHeight - 2 * padding);
+      
+      // Create path for actual progress
+      let pathD = '';
+      dataPoints.forEach((point, i) => {
+        const x = scaleX(point.week);
+        const y = scaleY(point.value);
+        pathD += (i === 0 ? 'M' : 'L') + ` ${x} ${y} `;
+      });
+      
+      // Target line path
+      const targetY = scaleY(targetVal);
+      
+      // Calculate current progress
+      const latestValue = entries.length > 0 ? entries[entries.length - 1].value : startVal;
+      const totalChange = Math.abs(targetVal - startVal);
+      const currentChange = isDecreasing ? (startVal - latestValue) : (latestValue - startVal);
+      const progressPercent = totalChange > 0 ? Math.round((currentChange / totalChange) * 100) : 0;
+      const clampedProgress = Math.max(0, Math.min(100, progressPercent));
+      
+      return `
+        <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 12px; color: #888;">Progress to Target</span>
+            <span style="font-size: 16px; font-weight: 700; color: ${clampedProgress >= 100 ? '#2ecc71' : '#e63946'};">${clampedProgress}%</span>
+          </div>
+          
+          <svg viewBox="0 0 ${graphWidth} ${graphHeight}" style="width: 100%; height: 120px;">
+            <!-- Grid lines -->
+            ${[0, 3, 6, 9, 12].map(w => `
+              <line x1="${scaleX(w)}" y1="${padding}" x2="${scaleX(w)}" y2="${graphHeight - padding}" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+            `).join('')}
+            
+            <!-- Target line -->
+            <line x1="${padding}" y1="${targetY}" x2="${graphWidth - padding}" y2="${targetY}" stroke="#2ecc71" stroke-width="1" stroke-dasharray="4,2"/>
+            <text x="${graphWidth - padding}" y="${targetY - 4}" fill="#2ecc71" font-size="6" text-anchor="end">Target: ${targetVal}</text>
+            
+            <!-- Start line -->
+            <line x1="${padding}" y1="${scaleY(startVal)}" x2="${graphWidth - padding}" y2="${scaleY(startVal)}" stroke="rgba(255,255,255,0.2)" stroke-width="0.5" stroke-dasharray="2,2"/>
+            <text x="${padding}" y="${scaleY(startVal) - 4}" fill="#888" font-size="6">Start: ${startVal}</text>
+            
+            <!-- Progress line -->
+            <path d="${pathD}" fill="none" stroke="#e63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            ${dataPoints.map(point => `
+              <circle cx="${scaleX(point.week)}" cy="${scaleY(point.value)}" r="3" fill="#e63946"/>
+            `).join('')}
+          </svg>
+          
+          <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 10px; color: #666;">
+            <span>Week 0</span>
+            <span>Week 6</span>
+            <span>Week 12</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Feedback function with encoded email
+    function sendFeedback() {
+      const a = 'amitmittal86';
+      const b = 'gmail.com';
+      const subject = encodeURIComponent('Feedback: 12 Week Year Planner');
+      const body = encodeURIComponent('Hi Amit,\n\nI have some feedback about the 12 Week Year Planner:\n\n');
+      window.location.href = 'mail' + 'to:' + a + '@' + b + '?subject=' + subject + '&body=' + body;
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      state.user = user;
+      state.loading = false;
+      
+      if (user) {
+        // Check for shared plan first
+        const sharedId = getSharedPlanIdFromUrl();
+        if (sharedId) {
+          await loadSharedPlan(sharedId);
+        } else {
+          await loadUserPlans();
+        }
+      }
+      
+      render();
+    });
+  </script>
+</body>
+</html>
